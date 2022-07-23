@@ -1,0 +1,39 @@
+<div class="root">
+  <div class="inline">
+    <h1>Kanban Board</h1>
+    <div class="menu">
+      <button mat-stroked-button style="width:6rem;">
+        <span class="material-icons">
+          add
+        </span>Add</button>
+      <button mat-stroked-button style="width:6rem;">Action</button>
+    </div>
+  </div>
+  <div class="board">
+    <div class="board-wrapper">
+      <div class="board-columns">
+        <div cdkDropList cdkDropListOrientation="horizontal" class="board-columns"
+          (cdkDropListDropped)="dropGrid($event)">
+          <div cdkDragLockAxis="x" class="board-column" *ngFor="let column of board.columns" cdkDrag>
+            <div class="column-title" cdkDragHandle>
+              <button mat-raised-button [ngStyle]="{backgroundColor: column.color}">{{ column.name }}
+                ({{column.tasks.length}})</button>
+            </div>
+            <div class="tasks-container" id="{{column.id}}" [cdkDropListConnectedTo]="['1', '2','3','4']" cdkDropList
+              [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event)">
+              <div class="task" [ngStyle]="{borderLeft: '4px solid '+column.color}" *ngFor="let item of column.tasks"
+                cdkDrag>
+                <p style="font-weight: 400;font-size: 16px;margin-bottom: 15px;">{{ item.taskName }}</p>
+                <p><span>Created on:</span> {{item.createdOn}}</p>
+                <p><span>Responsible:</span> {{item.responsible}}</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
