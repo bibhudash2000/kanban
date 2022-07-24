@@ -1,4 +1,16 @@
 import { Task } from "./task.model";
-export class Column {
-  constructor(public name: string, public color: string, public id: string, public tasks: Task[]) { }
+export class TaskColumn {
+  id: number;
+  columnName: string;
+  colorCode: string;
+  tasks: Task[];
+  constructor(id: number,
+    columnName: string,
+    colorCode: string,
+    tasks: Task[]) {
+    this.id = id;
+    this.columnName = columnName;
+    this.colorCode = colorCode;
+    this.tasks = tasks;
+  }
 }

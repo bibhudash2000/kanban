@@ -25,8 +25,8 @@
 
 .material-icons {
   font-size: 18px;
-  margin-bottom: 2px;
-  margin-right: 4px;
+  /* margin-bottom: 2px;
+  margin-right: 4px; */
 }
 
 .board {
@@ -88,8 +88,8 @@
 
 .task {
   display: flex;
-  height: 3.5rem;
-  padding: 10px 12px;
+  height: fit-content;
+  padding: 12px 12px;
   background: white;
   border-bottom: solid 1px #ddd;
   border-radius: 4px;
@@ -126,3 +126,19 @@
 .tasks-container.cdk-drop-list-dragging .task:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+/* .d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.text-muted {
+  color: #757575
+} */
