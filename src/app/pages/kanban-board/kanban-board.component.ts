@@ -9,6 +9,8 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 import { MatChipSelectionChange } from '@angular/material/chips';
 import { TaskColumnService } from 'src/app/service/task-column/task-column.service';
 import { map } from 'rxjs';
+import { TaskService } from 'src/app/service/task/task.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-kanban-board',
@@ -102,7 +104,7 @@ export class KanbanBoardComponent implements OnInit {
   //   new Column('Completed', '#00c853', '4', this.completed)
   // ]);
 
-  constructor(private dialog: MatDialog, public taskColumnService: TaskColumnService) {
+  constructor(private snackBar: MatSnackBar, private dialog: MatDialog, public taskColumnService: TaskColumnService, public taskService: TaskService) {
 
   }
   public board: Board = new Board('Kanban Board', this.getColumns());
@@ -117,7 +119,11 @@ export class KanbanBoardComponent implements OnInit {
     return this.taskColumns;
   }
 
-  public task = Task;
+  updateTask(task: Task) {
+    return this.taskService.updateTask(task).subscribe((data) => { console.log(data); this.snackBar.open("Task Updated", "OK"); }, (error) => { console.log(error); this.snackBar.open("Something went wrong", "OK") });
+  }
+
+  public task!: Task;
 
   public chips = [
     "hard",
@@ -143,16 +149,26 @@ export class KanbanBoardComponent implements OnInit {
 
   public dropGrid(event: CdkDragDrop<Task[]>): void {
     moveItemInArray(this.board.columns, event.previousIndex, event.currentIndex);
+    console.log('drop1');
   }
-
+  tasks: Task[] = [];
   public drop(event: CdkDragDrop<Task[]>): void {
+    console.log('drop2')
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log('same grid drop');
     } else {
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex);
+      console.log('diff grid drop');
+      console.log(event.container.data[0]);
+      this.task = event.container.data[0];
+      // this.task.taskColumn.id = parseInt(event.container.id);
+
+      this.task.taskColumn = new TaskColumn(parseInt(event.container.id), "", "", this.tasks);
+      this.updateTask(this.task);
     }
   }
 
